@@ -36,7 +36,21 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <elf.h>
+#if OS(ANDROID)
+typedef struct
+{
+  int a_type;      /* Entry type */
+  union
+  {
+    long int a_val;    /* Integer value */
+    void *a_ptr;    /* Pointer value */
+    void (*a_fcn) (void);  /* Function pointer value */
+  } a_un;
+} Elf32_auxv_t;
+#define HWCAP_VFP 64
+#else
 #include <asm/hwcap.h>
+#endif
 #endif
 
 namespace JSC {
